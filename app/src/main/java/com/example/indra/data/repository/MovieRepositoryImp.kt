@@ -12,8 +12,8 @@ class MovieRepositoryImp @Inject constructor(
     private val database: DataBase
 ) {
 
-    suspend fun getAllMoviesRepository() : MainMovieResponse{
-        val response = api.getMovies()
+    suspend fun getAllMoviesRepository(page : Int,api_key : String) : MainMovieResponse{
+        val response = api.getMovies(page,api_key)
         return response.toDomain()
     }
 

@@ -8,10 +8,9 @@ import javax.inject.Inject
 
 class Service @Inject constructor(private val api:RetrofitApiClient) {
 
-    suspend fun getMovies(): MainMovieEntity {
+    suspend fun getMovies(page : Int,api_key : String): MainMovieEntity {
         return withContext(Dispatchers.IO) {
-            val response = api.getAllMovies()
-            ///val response = api.getAllMovies(1,"f46b58478f489737ad5a4651a4b25079")
+            val response = api.getAllMovies(page,api_key)
             response.body()!!
         }
     }

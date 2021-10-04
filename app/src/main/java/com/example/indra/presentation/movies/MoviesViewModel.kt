@@ -18,17 +18,13 @@ class MoviesViewModel @Inject constructor(
 
     val movieLiveData = MutableLiveData<List<MovieResponse>>()
 
-    fun allMovies(context: Context) {
+    fun allMovies(context: Context,page : Int, api_key : String) {
         viewModelScope.launch {
             runCatching {
-                getAllMoviesUseCase()
+                getAllMoviesUseCase(page,api_key)
             }.onSuccess {
-                if (movieLiveData.value?.size ?: 0 > 0) {
-                    movieLiveData.value = getAllMoviesUseCase.allArticlesDAO()
-                } else {
-                    getAllMoviesUseCase.addArticlesDAO(it.results)
-                    movieLiveData.value = getAllMoviesUseCase.allArticlesDAO()
-                }
+                getAllMoviesUseCase.addArticlesDAO(it.results)
+                movieLiveData.value = getAllMoviesUseCase.allArticlesDAO()
             }.onFailure {
                 movieLiveData.value = getAllMoviesUseCase.allArticlesDAO()
             }

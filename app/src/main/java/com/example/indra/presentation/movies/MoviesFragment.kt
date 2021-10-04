@@ -10,9 +10,11 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.indra.R
 import com.example.indra.databinding.FragmentMoviesBinding
 import com.example.indra.domain.usecase.response.MovieResponse
+import com.example.indra.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,11 +22,12 @@ class MoviesFragment : Fragment(),OnMoviesAdapterListener {
     private lateinit var fragmentMoviesBinding: FragmentMoviesBinding
     private var adapter: MoviesAdapter? = null
     private val moviesViewModel: MoviesViewModel by viewModels()
+    private var page : Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         adapter = MoviesAdapter(this,context)
-        moviesViewModel.allMovies(requireContext())
+        moviesViewModel.allMovies(requireContext(),page,Constants.API_KEY)
     }
 
     override fun onCreateView(
@@ -49,7 +52,9 @@ class MoviesFragment : Fragment(),OnMoviesAdapterListener {
                         .measuredHeight - v.measuredHeight &&
                     scrollY > oldScrollY
                 ) {
+                    page += 1
                     Toast.makeText(requireContext(),"2",Toast.LENGTH_LONG).show()
+                    moviesViewModel.allMovies(requireContext(),page,Constants.API_KEY)
                 }
             }
         }
@@ -60,8 +65,7 @@ class MoviesFragment : Fragment(),OnMoviesAdapterListener {
     }
 
     override fun onSelectMovie(movieResponse: MovieResponse) {
-        val x = MoviesFragmentDirections.actionMoviesFragmentToMovieMainFragment(movieResponse)
-        val bundle = bundleOf("amount" to movieResponse)
-        view?.let { Navigation.findNavController(it).navigate(R.id.action_moviesFragment_to_movieMainFragment,bundle) }
+        val action = MoviesFragmentDirections.actionMoviesFragmentToMovieMainFragment(movieResponse)
+        findNavController().navigate(action)
     }
 }

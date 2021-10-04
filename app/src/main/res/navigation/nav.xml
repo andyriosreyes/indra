@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_moviesFragment2"
-            app:destination="@id/moviesFragment" />
+            app:destination="@id/moviesFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/from_left" />
     </fragment>
     <fragment
         android:id="@+id/moviesFragment"
@@ -21,7 +23,9 @@
         tools:layout="@layout/fragment_movies" >
         <action
             android:id="@+id/action_moviesFragment_to_movieMainFragment"
-            app:destination="@id/movieMainFragment" />
+            app:destination="@id/movieMainFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/from_left" />
     </fragment>
     <fragment
         android:id="@+id/movieMainFragment"
